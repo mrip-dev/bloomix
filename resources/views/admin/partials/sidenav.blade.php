@@ -90,10 +90,7 @@
             @endforeach
         </ul>
     </div>
-    <div class="version-info text-center text-uppercase">
-        <span class="text-white">Moeeen</span>
-        <span class="text--dark">Traders </span>
-    </div>
+
 </div>
 </div>
 <!-- sidebar end -->
