@@ -28,7 +28,7 @@
     },
 
     "manage_sale": {
-        "title": "Manage Sales",
+        "title": "Sales",
         "icon": "la la-shopping-cart",
         "menu_active": [
             "admin.manage_sale",
@@ -97,7 +97,7 @@
 
 
     "manage_products": {
-        "title": "Manage Products",
+        "title": "Products",
         "icon": "las la-box",
         "menu_active": [
             "admin.product*"
@@ -159,7 +159,7 @@
             "Users",
             "Product Buyers"
         ],
-        "title": "Manage Customers",
+        "title": "Customers",
         "icon": "la la-users",
         "route_name": "admin.customer.index",
         "menu_active": [
