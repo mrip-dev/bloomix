@@ -111,6 +111,7 @@ class ProductController extends Controller
         }
         $product->name           = $request->name;
         $product->sku            = $request->sku ?? 'Null';
+        $product->selling_price            = $request->selling_price ?? 'Null';
         $product->category_id    = $request->category_id;
         $product->brand_id       = $request->brand_id;
         $product->unit_id        = $request->unit_id;

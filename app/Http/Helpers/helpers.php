@@ -206,22 +206,23 @@ if (!function_exists('gourmet_cola_products')) {
     function gourmet_cola_products($filter = null)
     {
         $products = [
-            'Zeera Cola',
-            'Cola',
-            'Lemon',
-            'Malta',
-            'Twister',
-            'Red Anar',
-            'Soda IceCream',
-            'Diet Cola',
-            'Diet Lemon Up',
-            'Mouj',
-            'Phal Rus',
-            'Phalpy',
-            'Spark',
-            'Water',
-            'Sparkling Water',
+            'Moisturizing Cream',
+            'Hydrating Face Wash',
+            'Aloe Vera Gel',
+            'Vitamin C Serum',
+            'Charcoal Face Mask',
+            'Makeup Remover',
+            'Lip Balm',
+            'Sunscreen SPF 50',
+            'Body Lotion',
+            'Hair Shampoo',
+            'Hair Conditioner',
+            'Facial Toner',
+            'Nail Polish',
+            'Perfume Spray',
+            'Face Scrub',
         ];
+
 
         // Apply filter if provided
         if ($filter) {

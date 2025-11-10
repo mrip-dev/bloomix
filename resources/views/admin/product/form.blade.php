@@ -58,12 +58,12 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="col-sm-6">
+                                 <div class="col-sm-6">
                                     <div class="form-group ">
-                                        <label>@lang('SKU')</label>
-                                        <input class="form-control " name="sku" type="text" value="{{ old('sku', @$product->sku) }}">
+                                        <label>@lang('Price')</label>
+                                        <input class="form-control " name="selling_price" type="text" value="{{ old('selling_price', @$product->selling_price) }}">
                                     </div>
-                                </div> -->
+                                </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
