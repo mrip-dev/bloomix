@@ -255,6 +255,7 @@ Route::middleware(['admin', 'admin.permission'])->group(function () {
         Route::post('/store', 'store')->name('store');
 
         Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::get('/show/{id}', 'show')->name('show');
         Route::post('/update/{id}', 'update')->name('update');
         Route::get('pdf/{id}', 'downloadInvoice')->name('invoice.pdf');
         Route::get('/search-product', 'searchProduct')->name('search.product');

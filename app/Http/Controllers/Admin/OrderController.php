@@ -319,6 +319,20 @@ class OrderController extends Controller
             $saleDetail->save();
         }
     }
+    public function show($id)
+    {
+        $pageTitle = 'Order Details';
+
+        $sale = Sale::with([
+            'customer',
+            'saleDetails.product.unit',
+            'saleDetails.product.brand',
+            'saleDetails.product.category'
+        ])->findOrFail($id);
+
+        return view('admin.order.show', compact('pageTitle', 'sale'));
+    }
+
 
     protected function getTotalPrice()
     {

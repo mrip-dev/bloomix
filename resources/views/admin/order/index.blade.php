@@ -9,8 +9,8 @@
                         <table class="table table--light style--two">
                             <thead>
                                 <tr>
-                                    <th>@lang('Order No.')</th>
-                                    <th>@lang('Date')</th>
+                                    <th>@lang('Order No')/@lang('Date')</th>
+                                    
                                     <th>@lang('Customer')</th>
                                     <th>@lang('Total Amount')</th>
                                     <th>@lang('Status')</th>
@@ -26,20 +26,19 @@
                                     <tr>
                                         <td>
                                             <span class="fw-bold">{{ $sale->invoice_no }}</span>
+                                             <br>
+                                            <span class="small">{{ showDateTime($sale->sale_date, 'd M, Y') }}</span>
+                                            
                                         </td>
 
                                         <td>
-                                            {{ showDateTime($sale->sale_date, 'd M, Y') }}
-                                        </td>
-
-                                        <td>
-                                            <span class="fw-bold">{{ __($sale->customer?->name) }}</span>
+                                            <span class="fw-bold">{{ __($sale->customer_name) }}</span>
                                             <br>
-                                            <span class="small">{{ $sale->customer?->mobile }}</span>
+                                            <span class="small">{{ $sale->customer_phone }}</span>
                                         </td>
 
                                         <td>
-                                            <span class="fw-bold">{{ gs('cur_sym') }}{{ showAmount($sale->total_price) }}</span>
+                                            <span class="fw-bold">{{ showAmount($sale->total_price) }}</span>
                                         </td>
 
                                         <td>
@@ -60,20 +59,20 @@
                                         </td>
 
                                         <td>
-                                            <span>{{ gs('cur_sym') }}{{ showAmount($sale->discount_amount) }}</span>
+                                            <span>{{ showAmount($sale->discount_amount) }}</span>
                                         </td>
 
                                         <td>
-                                            <span class="fw-bold">{{ gs('cur_sym') }}{{ showAmount($sale->receivable_amount) }}</span>
+                                            <span class="fw-bold">{{ showAmount($sale->receivable_amount) }}</span>
                                         </td>
 
                                         <td>
-                                            <span class="text--success">{{ gs('cur_sym') }}{{ showAmount($sale->received_amount) }}</span>
+                                            <span class="text--success">{{ showAmount($sale->received_amount) }}</span>
                                         </td>
 
                                         <td>
                                             @if($sale->due_amount > 0)
-                                                <span class="text--danger fw-bold">{{ gs('cur_sym') }}{{ showAmount($sale->due_amount) }}</span>
+                                                <span class="text--danger fw-bold">{{ showAmount($sale->due_amount) }}</span>
                                             @else
                                                 <span class="text--success">{{ gs('cur_sym') }}0.00</span>
                                             @endif
@@ -82,9 +81,9 @@
                                         <td>
                                             <div class="button-group">
                                                 <a class="btn btn-sm btn-outline--primary"
-                                                   href="{{ route('admin.order.edit', $sale->id) }}"
-                                                   title="@lang('Edit')">
-                                                    <i class="la la-pen"></i> @lang('Edit')
+                                                   href="{{ route('admin.order.show', $sale->id) }}"
+                                                   title="@lang('Show')">
+                                                    <i class="la la-eye"></i> @lang('Show')
                                                 </a>
 
                                                 <a class="btn btn-sm btn-outline--info"
