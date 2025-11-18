@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DeliveryBatchController;
 use App\Http\Controllers\Admin\DeliveryDashboardController;
 use App\Http\Controllers\Admin\DeliveryTrackingController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\PdfController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\VehicleAssignmentController;
@@ -267,6 +268,16 @@ Route::middleware(['admin', 'admin.permission'])->group(function () {
 
         Route::post('/update-status/{id}', 'updateStatus')->name('update.status');
     });
+    Route::controller(MessageController::class)
+        ->name('messages.')
+        ->prefix('messages')
+        ->group(function () {
+
+            Route::get('/', 'index')->name('index');                 // List all messages
+            Route::get('view/{id}', 'view')->name('view');           // View single message
+            Route::delete('delete/{id}', 'delete')->name('delete');  // Delete message
+        });
+
 
     Route::controller('AreaController')->prefix('areas')->name('areas.')->group(function () {
         Route::get('/', 'index')->name('index');

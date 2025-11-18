@@ -9,10 +9,7 @@ class Product extends Model
 {
     use ActionTakenBy;
 
-    protected $fillable = [
-        'name',
-        'selling_price'
-    ];
+    protected $guarded = [];
 
     public function category()
     {

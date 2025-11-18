@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AttendanceController;
+use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
@@ -46,6 +47,10 @@ Route::controller(OrderController::class)->group(function () {
     Route::get('orders', 'getAllOrders')->name('orders');
     Route::post('update-order/{id}', 'updateOrder')->name('update-order');
 });
+
+
+Route::post('/contact-message', [ContactMessageController::class, 'store']);
+
 
 Route::controller(AdminController::class)->group(function () {
     Route::get('dashboard', 'dashboard')->name('dashboard');

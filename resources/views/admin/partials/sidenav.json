@@ -168,5 +168,24 @@
             "admin.customer.notification.*",
             "admin.customer*"
         ]
-    }
+    },
+    "messages": {
+    "keyword": [
+        "Messages",
+        "User Messages",
+        "Contact Messages",
+        "Support Messages",
+        "Inbox",
+        "Customer Messages"
+    ],
+    "title": "Messages",
+    "icon": "la la-comment",
+    "route_name": "admin.messages.index",
+    "menu_active": [
+        "admin.messages.index",
+        "admin.messages.view",
+        "admin.messages.delete"
+    ]
+}
+
 }
