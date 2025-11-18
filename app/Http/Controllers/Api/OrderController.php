@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use App\Lib\CurlRequest;
+use App\Mail\OrderNotification;
 use App\Models\Action;
 use App\Models\AdminNotification;
 use App\Models\Transaction;
@@ -22,6 +23,7 @@ use App\Models\Supplier;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -89,6 +91,11 @@ class OrderController extends Controller
                 'total'      => $price * $item['quantity'],
             ]);
         }
+        // Email to admin
+        Mail::to('admin@example.com')->send(new OrderNotification($sale, 'admin'));
+
+        // Email to customer
+        // Mail::to($sale->customer_email ?? $sale->customer_phone)->send(new OrderNotification($sale, 'customer'));
 
         return response()->json([
             'success' => true,
