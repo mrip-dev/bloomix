@@ -4,6 +4,7 @@
             "Dashboard",
             "Home",
             "Panel",
+            "Promos",
             "Admin",
             "Control center",
             "Overview",
@@ -26,7 +27,6 @@
         "route_name": "admin.dashboard",
         "menu_active": "admin.dashboard"
     },
-
     "manage_sale": {
         "title": "Sales",
         "icon": "la la-shopping-cart",
@@ -94,8 +94,6 @@
             }
         ]
     },
-
-
     "manage_products": {
         "title": "Products",
         "icon": "las la-box",
@@ -170,21 +168,41 @@
         ]
     },
     "messages": {
+        "keyword": [
+            "Messages",
+            "User Messages",
+            "Contact Messages",
+            "Support Messages",
+            "Inbox",
+            "Customer Messages"
+        ],
+        "title": "Messages",
+        "icon": "la la-comment",
+        "route_name": "admin.messages.index",
+        "menu_active": [
+            "admin.messages.index",
+            "admin.messages.view",
+            "admin.messages.delete"
+        ]
+    },
+    "promos": {
     "keyword": [
-        "Messages",
-        "User Messages",
-        "Contact Messages",
-        "Support Messages",
-        "Inbox",
-        "Customer Messages"
+        "Promo",
+        "Promo Codes",
+        "Discount Codes",
+        "Coupons",
+        "Offers",
+        "Special Offers"
     ],
-    "title": "Messages",
-    "icon": "la la-comment",
-    "route_name": "admin.messages.index",
+    "title": "Promo Codes",
+    "icon": "la la-tag",
+    "route_name": "admin.promo.index",
     "menu_active": [
-        "admin.messages.index",
-        "admin.messages.view",
-        "admin.messages.delete"
+        "admin.promo.index",
+        "admin.promo.create",
+        "admin.promo.edit",
+        "admin.promo.delete",
+        "admin.promo.view"
     ]
 }
 

@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Category;
+use App\Models\PromoCode;
 use App\Models\Purchase;
 use App\Models\PurchaseReturn;
 use App\Models\Sale;
@@ -34,8 +35,8 @@ class OrderController extends Controller
             'customer_name'         => 'required|string|max:255',
             'customer_last_name'    => 'nullable|string|max:255',
             'email'                 => 'nullable|email|max:255',
-            'customer_phone'        => 'required|string|max:20',
 
+            'customer_phone'        => 'required|string|max:20',
             'customer_address'      => 'required|string|max:500',
             'apartment'             => 'nullable|string|max:255',
             'city'                  => 'nullable|string|max:255',
@@ -48,6 +49,10 @@ class OrderController extends Controller
             'products.*.quantity'   => 'required|integer|min:1',
 
             'discount'              => 'nullable|numeric|min:0',
+
+            // NEW VALIDATION
+            'promo_code'            => 'nullable|string|max:50',
+
             'note'                  => 'nullable|string|max:1500',
         ]);
 
@@ -63,11 +68,47 @@ class OrderController extends Controller
         }
 
         $discount = $validated['discount'] ?? 0;
+        $promoDiscount = 0;
+
+      
+
+        if (!empty($validated['promo_code'])) {
+            $promo = PromoCode::where('code', strtoupper($validated['promo_code']))
+                ->where(function ($q) {
+                    $q->whereNull('end_date')->orWhere('end_date', '>=', now());
+                })
+                ->first();
+
+            if ($promo && $promo->isValid()) {
+
+
+                if (is_null($promo->usage_limit) || $promo->used_count < $promo->usage_limit) {
+                    $appliedPromo = $promo;
+
+                    if ($promo->discount_type === 'percentage') {
+                        $promoDiscount = ($totalPrice * ($promo->discount_value / 100));
+                    } else {
+                        $promoDiscount = $promo->discount_value;
+                    }
+
+                    // Ensure discount does not exceed total
+                    $promoDiscount = min($promoDiscount, $totalPrice);
+
+                    // Increment used_count
+                    $promo->increment('used_count');
+                }
+            }
+        }
+
+
         $lastSale = Sale::latest()->first();
         $lastInvoiceNo = $lastSale?->invoice_no;
         $invoiceNo = generateInvoiceNumber($lastInvoiceNo);
 
-        $receivable = $totalPrice - $discount;
+        // FINAL DISCOUNT = manual discount + promo discount
+        $finalDiscount = $discount + $promoDiscount;
+
+        $receivable = $totalPrice - $finalDiscount;
         $receivedAmount = 0;
         $dueAmount = $receivable - $receivedAmount;
 
@@ -90,10 +131,12 @@ class OrderController extends Controller
             'status'            => $validated['status'] ?? 'pending',
 
             'total_price'       => $totalPrice,
-            'discount_amount'   => $discount,
+            'discount_amount'   => $finalDiscount,   // updated
             'receivable_amount' => $receivable,
             'received_amount'   => $receivedAmount,
             'due_amount'        => $dueAmount,
+
+            // save note normally
             'note'              => $validated['note'] ?? null,
         ]);
 
@@ -119,7 +162,8 @@ class OrderController extends Controller
             'data'    => [
                 'order_id'   => $sale->id,
                 'invoice_no' => $sale->invoice_no,
-                'customer'   => [
+
+                'customer' => [
                     'id'         => $sale->customer_id,
                     'name'       => $sale->customer_name,
                     'last_name'  => $sale->customer_last_name,
@@ -130,11 +174,15 @@ class OrderController extends Controller
                     'city'       => $sale->city,
                     'postal'     => $sale->postal_code,
                 ],
+
                 'status'     => $sale->status,
                 'total'      => $sale->total_price,
                 'discount'   => $sale->discount_amount,
                 'final'      => $sale->receivable_amount,
-                'details'    => $sale->saleDetails()->with('product:id,name,sku,selling_price')->get(),
+
+                'details'    => $sale->saleDetails()
+                    ->with('product:id,name,sku,selling_price')
+                    ->get(),
             ]
         ], 201);
     }

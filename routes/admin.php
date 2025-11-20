@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DeliveryBatchController;
+use App\Http\Controllers\Admin\PromoCodeController;
 use App\Http\Controllers\Admin\DeliveryDashboardController;
 use App\Http\Controllers\Admin\DeliveryTrackingController;
 use App\Http\Controllers\Admin\MessageController;
@@ -217,7 +218,6 @@ Route::middleware(['admin', 'admin.permission'])->group(function () {
     //Manage Purchase Return
     Route::controller('PurchaseReturnController')->name('purchase.return.')->prefix('purchase-return')->group(function () {
         Route::get('new/{id}', 'newReturn')->name('items');
-
         Route::get('all', 'index')->name('index');
         Route::get('pdf', 'purchaseReturnPDF')->name('pdf');
         Route::get('csv', 'purchaseReturnCSV')->name('csv');
@@ -247,6 +247,22 @@ Route::middleware(['admin', 'admin.permission'])->group(function () {
 
         Route::get('last-invoice', 'lastInvoice')->name('last.invoice');
     });
+    //Manage Promos
+
+
+    Route::prefix('promo')->name('promo.')->controller(PromoCodeController::class)->group(function () {
+        Route::get('all', 'index')->name('index');
+        Route::get('pdf', 'exportPDF')->name('pdf');
+        Route::get('csv', 'exportCSV')->name('csv');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::post('update/{id}', 'update')->name('update');
+        Route::delete('delete/{id}', 'destroy')->name('delete');
+        Route::get('view/{id}', 'show')->name('view');
+    });
+
+
     //Manage Orders
     Route::controller('OrderController')->name('order.')->prefix('order')->group(function () {
         Route::get('/', 'index')->name('index');
