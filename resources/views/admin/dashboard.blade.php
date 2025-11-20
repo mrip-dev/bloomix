@@ -22,7 +22,7 @@
 
     {{-- Total Customers --}}
     <div class="col-xxl-6 col-sm-6">
-        <a href="{{ route('admin.customer.index') }}" class="widget-card widget-light widget-green">
+        <a href="{{ route('admin.order.index') }}" class="widget-card widget-light widget-green">
             <div class="widget-icon">
                 <i class="las la-check-circle"></i>
             </div>
@@ -35,7 +35,7 @@
 
     {{-- Total Suppliers --}}
     <div class="col-xxl-6 col-sm-6">
-        <a href="{{ route('admin.supplier.index') }}" class="widget-card widget-light widget-purple">
+        <a href="{{ route('admin.order.index') }}" class="widget-card widget-light widget-purple">
             <div class="widget-icon">
                 <i class="las la-clock"></i>
             </div>
