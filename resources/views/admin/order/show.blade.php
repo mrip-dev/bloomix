@@ -7,9 +7,9 @@
             <div class="card-header bg--primary text-white d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">{{ $pageTitle }}</h5>
                 <div>
-                    <a href="{{ route('admin.order.invoice', $sale->id) }}" class="btn btn--light me-2">
+                    <!-- <a href="{{ route('admin.order.invoice', $sale->id) }}" class="btn btn--light me-2">
                         <i class="la la-download"></i> Download Invoice
-                    </a>
+                    </a> -->
                     <a href="{{ route('admin.order.index') }}" class="btn btn--dark">
                         <i class="la la-arrow-left"></i> Back
                     </a>
@@ -43,19 +43,49 @@
                     <h6 class="text--primary fw-bold">Customer Information</h6>
                 </div>
                 <ul class="list-group mb-4">
+
                     <li class="list-group-item d-flex justify-content-between">
-                        <strong>Name:</strong>
+                        <strong>First Name:</strong>
                         <span>{{ $sale->customer_name ?? 'N/A' }}</span>
                     </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <strong>Last Name:</strong>
+                        <span>{{ $sale->customer_last_name ?? 'N/A' }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <strong>Email:</strong>
+                        <span>{{ $sale->email ?? 'N/A' }}</span>
+                    </li>
+
                     <li class="list-group-item d-flex justify-content-between">
                         <strong>Phone:</strong>
                         <span>{{ $sale->customer_phone ?? 'N/A' }}</span>
                     </li>
+
                     <li class="list-group-item d-flex justify-content-between">
-                        <strong>Email:</strong>
+                        <strong>Address:</strong>
                         <span>{{ $sale->customer_address ?? 'N/A' }}</span>
                     </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <strong>Apartment:</strong>
+                        <span>{{ $sale->apartment ?? 'N/A' }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <strong>City:</strong>
+                        <span>{{ $sale->city ?? 'N/A' }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <strong>Postal Code:</strong>
+                        <span>{{ $sale->postal_code ?? 'N/A' }}</span>
+                    </li>
+
                 </ul>
+
 
                 {{-- Product Table --}}
                 <div class="section-header mb-3 border-bottom pb-2">
@@ -77,15 +107,15 @@
                         </thead>
                         <tbody>
                             @foreach($sale->saleDetails as $detail)
-                                <tr>
-                                    <td>{{ $detail->product->name ?? 'N/A' }}</td>
-                                    <td>{{ $detail->product->brand->name ?? 'N/A' }}</td>
-                                    <td>{{ $detail->product->category->name ?? 'N/A' }}</td>
-                                    <td>{{ $detail->product->unit->name ?? 'N/A' }}</td>
-                                    <td>{{ showAmount($detail->price) }}</td>
-                                    <td>{{ $detail->quantity }}</td>
-                                    <td>{{ showAmount($detail->total) }}</td>
-                                </tr>
+                            <tr>
+                                <td>{{ $detail->product->name ?? 'N/A' }}</td>
+                                <td>{{ $detail->product->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $detail->product->category->name ?? 'N/A' }}</td>
+                                <td>{{ $detail->product->unit->name ?? 'N/A' }}</td>
+                                <td>{{ showAmount($detail->price) }}</td>
+                                <td>{{ $detail->quantity }}</td>
+                                <td>{{ showAmount($detail->total) }}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -130,9 +160,9 @@
             </div>
 
             <div class="card-footer bg--light text-end">
-                <a href="{{ route('admin.order.invoice', $sale->id) }}" class="btn btn--primary">
+                <!-- <a href="{{ route('admin.order.invoice', $sale->id) }}" class="btn btn--primary">
                     <i class="la la-download"></i> Download Invoice
-                </a>
+                </a> -->
                 <a href="{{ route('admin.order.index') }}" class="btn btn--dark">
                     <i class="la la-arrow-left"></i> Back to Orders
                 </a>

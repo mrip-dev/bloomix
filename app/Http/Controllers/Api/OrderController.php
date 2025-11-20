@@ -32,12 +32,21 @@ class OrderController extends Controller
         $validated = $request->validate([
             'customer_id'           => 'nullable|exists:customers,id',
             'customer_name'         => 'required|string|max:255',
+            'customer_last_name'    => 'nullable|string|max:255',
+            'email'                 => 'nullable|email|max:255',
             'customer_phone'        => 'required|string|max:20',
+
             'customer_address'      => 'required|string|max:500',
-            'status'                => 'nullable|in:pending,confirmed,processing,shipped,delivered,cancelled',
+            'apartment'             => 'nullable|string|max:255',
+            'city'                  => 'nullable|string|max:255',
+            'postal_code'           => 'nullable|string|max:20',
+
+            'status'                => 'nullable',
+
             'products'              => 'required|array|min:1',
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.quantity'   => 'required|integer|min:1',
+
             'discount'              => 'nullable|numeric|min:0',
             'note'                  => 'nullable|string|max:1500',
         ]);
@@ -65,12 +74,21 @@ class OrderController extends Controller
         $sale = Sale::create([
             'invoice_no'        => $invoiceNo,
             'customer_id'       => $customerId,
-            'customer_name'     => $validated['customer_name'],
+
+            'customer_name'        => $validated['customer_name'],
+            'customer_last_name'   => $validated['customer_last_name'] ?? null,
+            'email'                => $validated['email'] ?? null,
+
             'customer_phone'    => $validated['customer_phone'],
             'customer_address'  => $validated['customer_address'],
+            'apartment'         => $validated['apartment'] ?? null,
+            'city'              => $validated['city'] ?? null,
+            'postal_code'       => $validated['postal_code'] ?? null,
+
             'warehouse_id'      => Warehouse::first()->id ?? 1,
             'sale_date'         => now(),
             'status'            => $validated['status'] ?? 'pending',
+
             'total_price'       => $totalPrice,
             'discount_amount'   => $discount,
             'receivable_amount' => $receivable,
@@ -91,11 +109,9 @@ class OrderController extends Controller
                 'total'      => $price * $item['quantity'],
             ]);
         }
+
         // Email to admin
         Mail::to('admin@example.com')->send(new OrderNotification($sale, 'admin'));
-
-        // Email to customer
-        // Mail::to($sale->customer_email ?? $sale->customer_phone)->send(new OrderNotification($sale, 'customer'));
 
         return response()->json([
             'success' => true,
@@ -104,10 +120,15 @@ class OrderController extends Controller
                 'order_id'   => $sale->id,
                 'invoice_no' => $sale->invoice_no,
                 'customer'   => [
-                    'id'      => $sale->$customerId,
-                    'name'    => $sale->customer_name,
-                    'phone'   => $sale->customer_phone,
-                    'address' => $sale->customer_address,
+                    'id'         => $sale->customer_id,
+                    'name'       => $sale->customer_name,
+                    'last_name'  => $sale->customer_last_name,
+                    'email'      => $sale->email,
+                    'phone'      => $sale->customer_phone,
+                    'address'    => $sale->customer_address,
+                    'apartment'  => $sale->apartment,
+                    'city'       => $sale->city,
+                    'postal'     => $sale->postal_code,
                 ],
                 'status'     => $sale->status,
                 'total'      => $sale->total_price,
