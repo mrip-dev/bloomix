@@ -24,11 +24,11 @@
     <div class="col-xxl-6 col-sm-6">
         <a href="{{ route('admin.customer.index') }}" class="widget-card widget-light widget-green">
             <div class="widget-icon">
-                <i class="las la-handshake"></i>
+                <i class="las la-check-circle"></i>
             </div>
             <div class="widget-content">
-                <p class="widget-title">Total Customers</p>
-                <h3 class="widget-value">{{ $widget['total_customer'] }}</h3>
+                <p class="widget-title">Total Delivered Orders</p>
+                <h3 class="widget-value">{{ $widget['total_delivered_orders'] }}</h3>
             </div>
         </a>
     </div>
@@ -37,11 +37,11 @@
     <div class="col-xxl-6 col-sm-6">
         <a href="{{ route('admin.supplier.index') }}" class="widget-card widget-light widget-purple">
             <div class="widget-icon">
-                <i class="las la-shipping-fast"></i>
+                <i class="las la-clock"></i>
             </div>
             <div class="widget-content">
-                <p class="widget-title">Total Suppliers</p>
-                <h3 class="widget-value">{{ $widget['total_supplier'] }}</h3>
+                <p class="widget-title">Total Pending Orders</p>
+                <h3 class="widget-value">{{ $widget['total_pending_orders'] }}</h3>
             </div>
         </a>
     </div>

@@ -30,7 +30,8 @@ class AdminController extends Controller
         $widget['total_customer'] = Customer::count();
         $widget['total_product']  = Product::count();
         $widget['total_category'] = Category::count();
-        $widget['total_supplier'] = Supplier::count();
+        $widget['total_pending_orders'] = Sale::where('status','pending')->count();
+        $widget['total_delivered_orders'] = Sale::where('status','!=','pending')->count();
 
 
         $widget['total_purchase_count']        = Purchase::count();
