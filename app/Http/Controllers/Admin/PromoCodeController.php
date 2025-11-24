@@ -39,6 +39,58 @@ class PromoCodeController extends Controller
 
         return view('admin.promos.form', compact('pageTitle'));
     }
+    public function getDiscount(Request $request)
+    {
+        $request->validate([
+            'promo_code' => 'required|string'
+        ]);
+
+        $promo = PromoCode::where('code', $request->promo_code)->first();
+
+        if (!$promo) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid promo code.'
+            ], 404);
+        }
+
+
+        $now = now();
+        if ($promo->start_date && $now->lt($promo->start_date)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Promo code is not active yet.'
+            ], 400);
+        }
+
+        if ($promo->end_date && $now->gt($promo->end_date)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Promo code has expired.'
+            ], 400);
+        }
+
+
+        if ($promo->usage_limit !== null && $promo->used_count >= $promo->usage_limit) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Promo code usage limit reached.'
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'code'           => $promo->code,
+                'discount_type'  => $promo->discount_type,
+                'discount_value' => $promo->discount_value,
+                'usage_limit'    => $promo->usage_limit,
+                'used_count'     => $promo->used_count,
+                'start_date'     => $promo->start_date,
+                'end_date'       => $promo->end_date,
+            ]
+        ]);
+    }
 
 
     public function store(Request $request)
@@ -86,12 +138,11 @@ class PromoCodeController extends Controller
         return view('admin.promos.show', compact('promo', 'pageTitle'));
     }
 
-   public function destroy($id)
-{
-    $promo = PromoCode::findOrFail($id);
-    $promo->delete();
+    public function destroy($id)
+    {
+        $promo = PromoCode::findOrFail($id);
+        $promo->delete();
 
-    return back()->with('success', 'Promo code deleted successfully.');
-}
-
+        return back()->with('success', 'Promo code deleted successfully.');
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Admin\PromoCodeController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\Auth\LoginController;
@@ -50,6 +50,7 @@ Route::controller(OrderController::class)->group(function () {
 
 
 Route::post('/contact-message', [ContactMessageController::class, 'store']);
+Route::post('/promo-code/discount', [PromoCodeController::class, 'getDiscount']);
 
 
 Route::controller(AdminController::class)->group(function () {
