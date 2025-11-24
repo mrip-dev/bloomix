@@ -24,41 +24,70 @@ class OrderController extends Controller
         $this->pageTitle = 'All Orders';
     }
 
-    protected function getSales()
+    protected function getSales($status = null)
     {
         $query = Sale::searchable(['invoice_no', 'due_amount', 'customer:name,mobile', 'status'])
             ->dateFilter('sale_date')
-            ->with('customer', 'saleReturn')
-            ->where('status', 'pending')
-            ->orderBy('id', 'desc');
+            ->with('customer', 'saleReturn');
+
+        if ($status) {
+            $query->where('status', $status);
+        }
 
         $user = Auth::guard('admin')->user();
         if ($user && $user->role_id !== 0) {
             $query->where('user_id', $user->id);
         }
 
-        return $query;
+        return $query->orderBy('id', 'desc');
     }
 
     public function index()
     {
         $pageTitle = $this->pageTitle;
         $sales     = $this->getSales()->paginate(getPaginate());
-        $banks     = Bank::all();
-        $pdfButton = true;
-        $routePDF  = route('admin.order.pdf') . "?";
-        $routeCSV  = route('admin.order.csv') . "?";
+        return view('admin.order.index', compact('pageTitle', 'sales'));
+    }
+    public function pending()
+    {
+        $pageTitle = "Pending Orders";
+        $sales = $this->getSales('pending')->paginate(getPaginate());
+        return view('admin.order.pending', compact('pageTitle', 'sales'));
+    }
 
-        if (request()->search) {
-            $routePDF .= "search=" . request()->search . "&";
-            $routeCSV .= "search=" . request()->search . "&";
-        }
-        if (request()->date) {
-            $routePDF .= "date=" . request()->date;
-            $routeCSV .= "date=" . request()->date;
-        }
+    public function confirmed()
+    {
+        $pageTitle = "Confirmed Orders";
+        $sales = $this->getSales('confirmed')->paginate(getPaginate());
+        return view('admin.order.confirmed', compact('pageTitle', 'sales'));
+    }
 
-        return view('admin.order.index', compact('pageTitle', 'sales', 'pdfButton', 'routePDF', 'routeCSV', 'banks'));
+    public function processing()
+    {
+        $pageTitle = "Processing Orders";
+        $sales = $this->getSales('processing')->paginate(getPaginate());
+        return view('admin.order.processing', compact('pageTitle', 'sales'));
+    }
+
+    public function shipped()
+    {
+        $pageTitle = "Shipped Orders";
+        $sales = $this->getSales('shipped')->paginate(getPaginate());
+        return view('admin.order.shipped', compact('pageTitle', 'sales'));
+    }
+
+    public function delivered()
+    {
+        $pageTitle = "Delivered Orders";
+        $sales = $this->getSales('delivered')->paginate(getPaginate());
+        return view('admin.order.delivered', compact('pageTitle', 'sales'));
+    }
+
+    public function cancelled()
+    {
+        $pageTitle = "Cancelled Orders";
+        $sales = $this->getSales('cancelled')->paginate(getPaginate());
+        return view('admin.order.cancelled', compact('pageTitle', 'sales'));
     }
 
     public function salePDF()

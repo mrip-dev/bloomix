@@ -78,11 +78,7 @@
         "submenu": [
             {
                 "keyword": [
-                    "Orders",
-                    "Manage orders",
-                    "Sale Configuration",
-                    "Add order",
-                    "Edit order"
+                    "All Orders"
                 ],
                 "title": "All Orders",
                 "route_name": "admin.order.index",
@@ -90,6 +86,66 @@
                     "admin.order.index",
                     "admin.order.create",
                     "admin.order.edit"
+                ]
+            },
+            {
+                "keyword": [
+                    "Pending Orders"
+                ],
+                "title": "Pending Orders",
+                "route_name": "admin.order.pending",
+                "menu_active": [
+                    "admin.order.pending"
+                ]
+            },
+            {
+                "keyword": [
+                    "Confirmed Orders"
+                ],
+                "title": "Confirmed Orders",
+                "route_name": "admin.order.confirmed",
+                "menu_active": [
+                    "admin.order.confirmed"
+                ]
+            },
+            {
+                "keyword": [
+                    "Processing Orders"
+                ],
+                "title": "Processing Orders",
+                "route_name": "admin.order.processing",
+                "menu_active": [
+                    "admin.order.processing"
+                ]
+            },
+            {
+                "keyword": [
+                    "Shipped Orders"
+                ],
+                "title": "Shipped Orders",
+                "route_name": "admin.order.shipped",
+                "menu_active": [
+                    "admin.order.shipped"
+                ]
+            },
+            {
+                "keyword": [
+                    "Delivered Orders"
+                ],
+                "title": "Delivered Orders",
+                "route_name": "admin.order.delivered",
+                "menu_active": [
+                    "admin.order.delivered"
+                ]
+            },
+            {
+                "keyword": [
+                    "Cancelled Orders"
+                ],
+                "title": "Cancelled Orders",
+                "route_name": "admin.order.cancelled",
+                "menu_active": [
+                    "admin.order.cancelled"
                 ]
             }
         ]
@@ -186,24 +242,23 @@
         ]
     },
     "promos": {
-    "keyword": [
-        "Promo",
-        "Promo Codes",
-        "Discount Codes",
-        "Coupons",
-        "Offers",
-        "Special Offers"
-    ],
-    "title": "Promo Codes",
-    "icon": "la la-tag",
-    "route_name": "admin.promo.index",
-    "menu_active": [
-        "admin.promo.index",
-        "admin.promo.create",
-        "admin.promo.edit",
-        "admin.promo.delete",
-        "admin.promo.view"
-    ]
-}
-
+        "keyword": [
+            "Promo",
+            "Promo Codes",
+            "Discount Codes",
+            "Coupons",
+            "Offers",
+            "Special Offers"
+        ],
+        "title": "Promo Codes",
+        "icon": "la la-tag",
+        "route_name": "admin.promo.index",
+        "menu_active": [
+            "admin.promo.index",
+            "admin.promo.create",
+            "admin.promo.edit",
+            "admin.promo.delete",
+            "admin.promo.view"
+        ]
+    }
 }

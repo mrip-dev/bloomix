@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PromoCodeController;
 use App\Http\Controllers\Admin\DeliveryDashboardController;
 use App\Http\Controllers\Admin\DeliveryTrackingController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PdfController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\VehicleAssignmentController;
@@ -284,6 +285,15 @@ Route::middleware(['admin', 'admin.permission'])->group(function () {
 
         Route::post('/update-status/{id}', 'updateStatus')->name('update.status');
     });
+    Route::prefix('order')->name('order.')->group(function () {
+        Route::get('/pending', [OrderController::class, 'pending'])->name('pending');
+        Route::get('/confirmed', [OrderController::class, 'confirmed'])->name('confirmed');
+        Route::get('/processing', [OrderController::class, 'processing'])->name('processing');
+        Route::get('/shipped', [OrderController::class, 'shipped'])->name('shipped');
+        Route::get('/delivered', [OrderController::class, 'delivered'])->name('delivered');
+        Route::get('/cancelled', [OrderController::class, 'cancelled'])->name('cancelled');
+    });
+
     Route::controller(MessageController::class)
         ->name('messages.')
         ->prefix('messages')
