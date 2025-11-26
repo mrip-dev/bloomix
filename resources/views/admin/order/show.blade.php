@@ -5,7 +5,7 @@
     <div class="col-lg-12">
         <div class="card b-radius--10 card--primary">
             <div class="card-header bg--primary text-white d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">{{ $pageTitle }}</h5>
+                <h5 class="card-title text-light mb-0">{{ $pageTitle }}</h5>
                 <div>
                     <!-- <a href="{{ route('admin.order.invoice', $sale->id) }}" class="btn btn--light me-2">
                         <i class="la la-download"></i> Download Invoice

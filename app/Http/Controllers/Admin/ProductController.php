@@ -90,43 +90,67 @@ class ProductController extends Controller
     }
 
 
-    public function store(Request $request, $id = 0)
-    {
-        $this->validation($request, $id);
-        if ($id) {
-            $product      = Product::findOrFail($id);
-            $notification = 'Product updated successfully';
-        } else {
-            $product      = new Product();
-            $notification = 'Product added successfully';
-        }
-        if ($request->hasFile('image')) {
-            try {
-                $old            = $product->image;
-                $product->image = fileUploader($request->image, getFilePath('product'), getFileSize('product'), $old);
-            } catch (\Exception $exp) {
-                $notify[] = ['error', 'Couldn\'t upload your product image'];
-                return back()->withNotify($notify);
-            }
-        }
-        $product->name           = $request->name;
-        $product->sku            = $request->sku ?? 'Null';
-        $product->selling_price            = $request->selling_price ?? 'Null';
-        $product->category_id    = $request->category_id;
-        $product->brand_id       = $request->brand_id;
-        $product->unit_id        = $request->unit_id;
-        $product->alert_quantity = $request->alert_quantity;
-        $product->net_weight           = $request->net_weight;
-        $product->note           = $request->note;
-        $product->save();
-        if ($request->warehouse_id && $request->stock_quantity) {
-            $this->storeStock($request->warehouse_id, $product->id, $request->stock_quantity);
-        }
-        Action::newEntry($product, $id ? 'UPDATED' : 'CREATED');
+   public function store(Request $request, $id = 0)
+{
+    $this->validation($request, $id);
 
-        $notify[] = ['success',  $notification];
-        return back()->withNotify($notify);
+    if ($id) {
+        $product      = Product::findOrFail($id);
+        $notification = 'Product updated successfully';
+    } else {
+        $product      = new Product();
+        $notification = 'Product added successfully';
     }
+
+    if ($request->hasFile('image')) {
+        try {
+            $old            = $product->image;
+            $product->image = fileUploader($request->image, getFilePath('product'), getFileSize('product'), $old);
+        } catch (\Exception $exp) {
+            $notify[] = ['error', 'Couldn\'t upload your product image'];
+            return back()->withNotify($notify);
+        }
+    }
+
+    $product->name           = $request->name;
+    $product->sku            = $request->sku ?? 'Null';
+    $product->selling_price  = $request->selling_price ?? 'Null';
+    $product->category_id    = $request->category_id;
+    $product->brand_id       = $request->brand_id;
+    $product->unit_id        = $request->unit_id;
+    $product->alert_quantity = $request->alert_quantity;
+    $product->net_weight     = $request->net_weight;
+    $product->note           = $request->note;
+    $product->is_featured    = $request->boolean('is_featured');
+    $product->save();
+
+    if ($request->warehouse_id && $request->stock_quantity) {
+        $this->storeStock($request->warehouse_id, $product->id, $request->stock_quantity);
+    }
+
+    // ✅ MULTIPLE IMAGES (ONLY NEW CODE)
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $path = fileUploader(
+                $image,
+                getFilePath('product'),
+                getFileSize('product')
+            );
+
+            \App\Models\ProductImage::create([
+                'product_id' => $product->id,
+                'image'      => $path,
+            ]);
+        }
+    }
+    // ✅ END ADDITION
+
+    Action::newEntry($product, $id ? 'UPDATED' : 'CREATED');
+
+    $notify[] = ['success',  $notification];
+    return back()->withNotify($notify);
+}
+
     public function openStockStore(Request $request)
     {
         $this->validationStock($request);

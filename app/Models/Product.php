@@ -10,6 +10,11 @@ class Product extends Model
     use ActionTakenBy;
 
     protected $guarded = [];
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
 
     public function category()
     {
@@ -69,9 +74,8 @@ class Product extends Model
     {
         return $this->productStock->sum('quantity');
     }
-     public function totalWeightInStock()
+    public function totalWeightInStock()
     {
         return $this->productStock->sum('net_weight');
     }
-
 }

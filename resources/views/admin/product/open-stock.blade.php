@@ -18,7 +18,7 @@
                                             <option value="" selected disabled>@lang('Select One')</option>
                                             @foreach ($products as $product)
                                             <option value="{{ $product->id }}"
-                                                data-unit="{{ strtolower($product->unit->name) }}"
+                                                data-unit="{{ strtolower($product->unit?->name) }}"
                                                 @selected($product->id == @$product->product_id)>
                                                 {{ __($product->name) }} ({{ __($product->category?->name) }})
                                             </option>

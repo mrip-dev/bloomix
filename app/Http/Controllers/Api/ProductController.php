@@ -23,7 +23,7 @@ class ProductController extends Controller
 {
     public function getAllProducts()
     {
-        $products = Product::with(['brand:id,name', 'category:id,name', 'unit:id,name'])
+        $products = Product::with(['brand:id,name', 'category:id,name', 'unit:id,name','images:id,product_id,image'])
             ->get();
         return response()->json([
             'status' => 'success',
