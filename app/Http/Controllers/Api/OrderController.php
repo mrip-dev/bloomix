@@ -23,6 +23,7 @@ use App\Models\SaleReturn;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,7 +35,7 @@ class OrderController extends Controller
             'customer_id'           => 'nullable|exists:customers,id',
             'customer_name'         => 'required|string|max:255',
             'customer_last_name'    => 'nullable|string|max:255',
-            'email'                 => 'nullable|email|max:255',
+            'email'                 => 'required|email|max:255',
 
             'customer_phone'        => 'required|string|max:20',
             'customer_address'      => 'required|string|max:500',
@@ -70,7 +71,7 @@ class OrderController extends Controller
         $discount = $validated['discount'] ?? 0;
         $promoDiscount = 0;
 
-      
+
 
         if (!empty($validated['promo_code'])) {
             $promo = PromoCode::where('code', strtoupper($validated['promo_code']))
@@ -153,8 +154,11 @@ class OrderController extends Controller
             ]);
         }
 
-        // Email to admin
-        Mail::to('admin@example.com')->send(new OrderNotification($sale, 'admin'));
+       Mail::to($validated['email'])->send(new OrderNotification($sale, 'customer'));
+
+
+
+
 
         return response()->json([
             'success' => true,
