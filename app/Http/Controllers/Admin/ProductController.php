@@ -121,6 +121,7 @@ class ProductController extends Controller
     $product->alert_quantity = $request->alert_quantity;
     $product->net_weight     = $request->net_weight;
     $product->note           = $request->note;
+    $product->sale           = $request->sale;
     $product->is_featured    = $request->boolean('is_featured');
     $product->save();
 
