@@ -29,20 +29,12 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label>@lang('Name')</label>
-                                <select class="form-control select2" name="name" required>
-                                    <option value="">@lang('Select Product')</option>
-                                    @foreach(gourmet_cola_products() as $name)
-                                    <option value="{{ $name }}"
-                                        {{ old('name', @$product->name) == $name ? 'selected' : '' }}>
-                                        {{ $name }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <input class="form-control " name="name" type="text"
+                                       value="{{ old('name', @$product->name) }}" required>
                             </div>
                         </div>
-
                         <div class="col-sm-6">
                             <div class="form-group ">
                                 <label>@lang('Category')</label>
@@ -96,11 +88,19 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label>@lang('Sale')</label>
+                                <input class="form-control" name="sale" type="number"
+                                       value="{{ old('sale', @$product->sale) }}">
+                            </div>
+                        </div>
+                         <div class="col-sm-6">
+                            <div class="form-group">
                                 <label>@lang('Alert Quantity')</label>
                                 <input class="form-control" name="alert_quantity" type="number"
                                        value="{{ old('alert_quantity', @$product->alert_quantity) }}">
                             </div>
                         </div>
+
 
                         <div class="col-sm-6" id="is_featured">
                             <div class="form-group">

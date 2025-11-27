@@ -92,6 +92,7 @@ class ProductController extends Controller
 
    public function store(Request $request, $id = 0)
 {
+    
     $this->validation($request, $id);
 
     if ($id) {
@@ -121,6 +122,7 @@ class ProductController extends Controller
     $product->alert_quantity = $request->alert_quantity;
     $product->net_weight     = $request->net_weight;
     $product->note           = $request->note;
+    $product->sale           = $request->sale;
     $product->is_featured    = $request->boolean('is_featured');
     $product->save();
 
@@ -199,6 +201,7 @@ class ProductController extends Controller
 
     protected function validation($request, $id = 0)
     {
+        dd($request);
         $request->validate(
             [
                 'name' => [
