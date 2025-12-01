@@ -137,6 +137,8 @@ Route::middleware(['admin', 'admin.permission'])->group(function () {
         Route::get('pdf', 'productPDF')->name('pdf');
         Route::get('csv', 'productCSV')->name('csv');
         Route::post('import', 'import')->name('import');
+        Route::delete('delete/{id}', 'destroy')->name('destroy');
+
     });
 
     // Warehouse Manage

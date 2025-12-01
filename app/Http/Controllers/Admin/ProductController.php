@@ -333,4 +333,41 @@ class ProductController extends Controller
         }
         return back()->withNotify($notify);
     }
+    public function destroy($id)
+{
+    try {
+        $product = Product::findOrFail($id);
+
+        // Delete associated images
+        if ($product->images) {
+            foreach ($product->images as $image) {
+                if (file_exists(public_path($image->image))) {
+                    @unlink(public_path($image->image));
+                }
+                $image->delete();
+            }
+        }
+
+        // Delete stock entries
+        if ($product->productStock) {
+            $product->productStock()->delete();
+        }
+
+        // Delete the main product image file
+        if ($product->image && file_exists(public_path($product->image))) {
+            @unlink(public_path($product->image));
+        }
+
+        $product->delete();
+
+        Action::newEntry($product, 'DELETED');
+
+        $notify[] = ['success', 'Product deleted successfully'];
+        return back()->withNotify($notify);
+    } catch (\Exception $e) {
+        $notify[] = ['error', 'Something went wrong: ' . $e->getMessage()];
+        return back()->withNotify($notify);
+    }
+}
+
 }

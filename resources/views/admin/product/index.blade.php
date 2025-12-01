@@ -70,7 +70,18 @@
                                                 class="las la-pen"></i> @lang('Edit')</a>
                                     </div>
                                     @endpermit
-                                </td>
+                                    
+      
+        <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST" class="d-inline"
+              onsubmit="return confirm('@lang('Are you sure you want to delete this product?')');">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-sm btn-outline--danger mt-2">
+                <i class="las la-trash"></i> @lang('Delete')
+            </button>
+        </form>
+           </td>
+                                
                             </tr>
                             @empty
                             <tr>
