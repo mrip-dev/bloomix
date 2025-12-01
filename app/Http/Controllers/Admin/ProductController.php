@@ -201,7 +201,7 @@ class ProductController extends Controller
 
     protected function validation($request, $id = 0)
     {
-        dd($request);
+      
         $request->validate(
             [
                 'name' => [
